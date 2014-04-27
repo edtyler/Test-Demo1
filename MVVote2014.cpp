@@ -24,6 +24,7 @@ typedef struct s_voter_data
     char housenum[MAX_FIELD_LEN];
     char streetname[MAX_FIELD_LEN];
     char streetsuffix[MAX_FIELD_LEN];
+    char phone[MAX_FIELD_LEN];
     char party[MAX_FIELD_LEN];
     char status[MAX_FIELD_LEN];
     char precinct[8];
@@ -133,6 +134,10 @@ int main(int argc, char* argv[])
 
                 case 17:
                     strncpy(voter_info.streetsuffix, infield, sizeof(voter_info.streetsuffix));
+                    break;
+
+                case 25:
+                    strncpy(voter_info.phone, infield, sizeof(voter_info.phone));
                     break;
 
                 case 38:
@@ -378,13 +383,14 @@ int write_outhdr(FILE *outfile)
 {
 	char outbuf[MAX_LINE_LEN];
 
-    snprintf(outbuf, MAX_LINE_LEN,"%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
+    snprintf(outbuf, MAX_LINE_LEN,"%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
                                    "VoterID", //voter_ptr->voterid,
                                    "LastName", // voter_ptr->last_name,
                                    "FirstName", //voter_ptr->first_name,
                                    "HouseNum", //voter_ptr->housenum,
                                    "StreetName", //voter_ptr->streetname, voter_ptr->streetsuffix,
                                    "ZipCode", //voter_ptr->zip,
+                                   "Phone", // voter_ptr->phone,
                                    "Party", //voter_ptr->party,
                                    "Status", //voter_ptr->status,
                                    "Precinct", //voter_ptr->precinct, voter_ptr->precinctsuffix,
@@ -406,13 +412,14 @@ int write_outrec(voter_data *voter_ptr, FILE *outfile)
          ( (!strcmp(voter_ptr->party, "Republican") || (!strcmp(voter_ptr->party, "No Party Preference"))) ) )
     {
         // write output record
-        snprintf(outbuf, MAX_LINE_LEN,"%s,%s,%s,%s,%s %s,%s,%s,%s,%s%s,%s%s%s%s%s\n",
+        snprintf(outbuf, MAX_LINE_LEN,"%s,%s,%s,%s,%s %s,%s,%s,%s,%s,%s%s,%s%s%s%s%s\n",
                                        voter_ptr->voterid,
                                        voter_ptr->last_name,
                                        voter_ptr->first_name,
                                        voter_ptr->housenum,
                                        voter_ptr->streetname, voter_ptr->streetsuffix,
                                        voter_ptr->zip,
+                                       voter_ptr->phone,
                                        voter_ptr->party,
                                        voter_ptr->status,
                                        voter_ptr->precinct, voter_ptr->precinctsuffix,
